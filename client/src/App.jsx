@@ -6,7 +6,8 @@ import Quiz from "./pages/Quiz";
 import Login from "./pages/Login";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
-import Arrays from "./pages/Arrays";
+
+import TopicPage from "./pages/TopicPage";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -42,7 +43,7 @@ function App() {
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/roadmap/arrays" element={<Arrays />} />
+            <Route path="/roadmap/:topic" element={<TopicPage />} />
             <Route path="/login" element={<Navigate to="/" />} />
           </>
         )}

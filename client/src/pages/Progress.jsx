@@ -1,4 +1,25 @@
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
+
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function Progress() {
 
@@ -9,105 +30,80 @@ function Progress() {
     setHistory(data);
   }, []);
 
-  const totalAttempts = history.length;
+  const easy = history.filter((h) => h.difficulty === "easy").length;
+  const medium = history.filter((h) => h.difficulty === "medium").length;
+  const hard = history.filter((h) => h.difficulty === "hard").length;
 
-  const bestScore =
-    history.length > 0
-      ? Math.max(...history.map((h) => h.score))
-      : 0;
-
-  const totalScore = history.reduce((sum, h) => sum + h.score, 0);
-  const totalQuestions = history.reduce((sum, h) => sum + h.total, 0);
-
-  const averageScore =
-    totalAttempts > 0
-      ? (totalScore / totalAttempts).toFixed(2)
-      : 0;
-
-  const accuracy =
-    totalQuestions > 0
-      ? ((totalScore / totalQuestions) * 100).toFixed(1)
-      : 0;
-
-  const easyCount = history.filter((h) => h.difficulty === "easy").length;
-  const mediumCount = history.filter((h) => h.difficulty === "medium").length;
-  const hardCount = history.filter((h) => h.difficulty === "hard").length;
+  const chartData = {
+    labels: ["Easy", "Medium", "Hard"],
+    datasets: [
+      {
+        label: "Quiz Attempts",
+        data: [easy, medium, hard],
+        backgroundColor: ["#22c55e", "#3b82f6", "#ef4444"]
+      }
+    ]
+  };
 
   return (
-    <div style={{ padding: "40px" }}>
 
-      <h1>Your Progress</h1>
+    <Layout>
+
+      <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+        Your Progress
+      </h1>
 
       {/* Stats */}
 
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          marginTop: "30px",
-          flexWrap: "wrap"
-        }}
-      >
+      <div className="grid md:grid-cols-3 gap-6 mb-10">
 
-        <Stat title="Total Attempts" value={totalAttempts} />
-        <Stat title="Best Score" value={bestScore} />
-        <Stat title="Average Score" value={averageScore} />
-        <Stat title="Accuracy %" value={accuracy + "%"} />
+        <Stat title="Total Attempts" value={history.length} />
+
+        <Stat
+          title="Best Score"
+          value={
+            history.length
+              ? Math.max(...history.map((h) => h.score))
+              : 0
+          }
+        />
+
+        <Stat
+          title="Average Score"
+          value={
+            history.length
+              ? (
+                  history.reduce((sum, h) => sum + h.score, 0) /
+                  history.length
+                ).toFixed(2)
+              : 0
+          }
+        />
 
       </div>
 
-      {/* Difficulty Breakdown */}
+      {/* Chart */}
 
-      <h2 style={{ marginTop: "40px" }}>Difficulty Breakdown</h2>
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 max-w-xl">
 
-      <div style={{ marginTop: "10px" }}>
-        <p>Easy Attempts: {easyCount}</p>
-        <p>Medium Attempts: {mediumCount}</p>
-        <p>Hard Attempts: {hardCount}</p>
+        <h2 className="text-xl font-semibold mb-4">
+          Quiz Difficulty Distribution
+        </h2>
+
+        <Bar data={chartData} />
+
       </div>
 
-      {/* History */}
+    </Layout>
 
-      <h2 style={{ marginTop: "40px" }}>Quiz History</h2>
-
-      {history.map((attempt, index) => (
-        <div
-          key={index}
-          style={{
-            background: "#1e293b",
-            color: "white",
-            padding: "15px",
-            borderRadius: "8px",
-            marginTop: "10px"
-          }}
-        >
-          Difficulty: {attempt.difficulty}
-          <br />
-          Score: {attempt.score}/{attempt.total}
-          <br />
-          Date: {attempt.date}
-        </div>
-      ))}
-
-    </div>
   );
 }
 
 function Stat({ title, value }) {
   return (
-    <div
-      style={{
-        background: "#1e293b",
-        color: "white",
-        padding: "20px",
-        borderRadius: "10px",
-        minWidth: "150px"
-      }}
-    >
-      <h3>{title}</h3>
-      <p style={{ fontSize: "22px", marginTop: "10px" }}>
-        {value}
-      </p>
+    <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 text-center">
+      <h3 className="text-gray-400">{title}</h3>
+      <p className="text-2xl font-bold mt-2">{value}</p>
     </div>
   );
 }

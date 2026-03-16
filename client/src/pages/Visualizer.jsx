@@ -6,22 +6,30 @@ function Visualizer() {
   const [array, setArray] = useState([]);
   const [activeIndices, setActiveIndices] = useState([]);
   const [sortedIndices, setSortedIndices] = useState([]);
+
   const [arraySize, setArraySize] = useState(30);
   const [speed, setSpeed] = useState(50);
+
   const [isSorting, setIsSorting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const stopSortingRef = useRef(false);
+  const pauseRef = useRef(false);
 
   const [algorithmInfo, setAlgorithmInfo] = useState({
     name: "",
     time: "",
-    space: ""
+    space: "",
+    description: ""
   });
-
-  const stopSortingRef = useRef(false);
 
   function generateArray() {
 
     stopSortingRef.current = true;
+    pauseRef.current = false;
+
     setIsSorting(false);
+    setIsPaused(false);
 
     const newArray = [];
 
@@ -42,6 +50,12 @@ function Visualizer() {
   const delay = () =>
     new Promise((resolve) => setTimeout(resolve, 210 - speed));
 
+  async function pauseCheck() {
+    while (pauseRef.current) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+  }
+
   /* ---------------- Bubble Sort ---------------- */
 
   async function bubbleSort() {
@@ -49,7 +63,9 @@ function Visualizer() {
     setAlgorithmInfo({
       name: "Bubble Sort",
       time: "O(n²)",
-      space: "O(1)"
+      space: "O(1)",
+      description:
+        "Bubble Sort repeatedly compares adjacent elements and swaps them if they are in the wrong order."
     });
 
     if (isSorting) return;
@@ -68,13 +84,13 @@ function Visualizer() {
           return;
         }
 
+        await pauseCheck();
+
         setActiveIndices([j, j + 1]);
 
         if (arr[j] > arr[j + 1]) {
-
           [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
           setArray([...arr]);
-
         }
 
         await delay();
@@ -94,7 +110,9 @@ function Visualizer() {
     setAlgorithmInfo({
       name: "Selection Sort",
       time: "O(n²)",
-      space: "O(1)"
+      space: "O(1)",
+      description:
+        "Selection Sort repeatedly selects the minimum element and places it at the beginning."
     });
 
     if (isSorting) return;
@@ -114,6 +132,8 @@ function Visualizer() {
           setIsSorting(false);
           return;
         }
+
+        await pauseCheck();
 
         setActiveIndices([minIndex, j]);
 
@@ -141,7 +161,9 @@ function Visualizer() {
     setAlgorithmInfo({
       name: "Insertion Sort",
       time: "O(n²)",
-      space: "O(1)"
+      space: "O(1)",
+      description:
+        "Insertion Sort builds the sorted array by inserting elements into their correct position."
     });
 
     if (isSorting) return;
@@ -162,6 +184,8 @@ function Visualizer() {
           setIsSorting(false);
           return;
         }
+
+        await pauseCheck();
 
         setActiveIndices([j, j + 1]);
 
@@ -188,7 +212,9 @@ function Visualizer() {
     setAlgorithmInfo({
       name: "Merge Sort",
       time: "O(n log n)",
-      space: "O(n)"
+      space: "O(n)",
+      description:
+        "Merge Sort divides the array and merges sorted halves using divide and conquer."
     });
 
     if (isSorting) return;
@@ -230,6 +256,8 @@ function Visualizer() {
 
       if (stopSortingRef.current) return;
 
+      await pauseCheck();
+
       setActiveIndices([k]);
 
       if (leftArr[i] <= rightArr[j]) {
@@ -262,7 +290,9 @@ function Visualizer() {
     setAlgorithmInfo({
       name: "Quick Sort",
       time: "O(n log n)",
-      space: "O(log n)"
+      space: "O(log n)",
+      description:
+        "Quick Sort selects a pivot and partitions the array around it."
     });
 
     if (isSorting) return;
@@ -299,6 +329,8 @@ function Visualizer() {
 
       if (stopSortingRef.current) return;
 
+      await pauseCheck();
+
       setActiveIndices([j, high]);
 
       if (arr[j] < pivot) {
@@ -326,32 +358,40 @@ function Visualizer() {
         Algorithm Visualizer
       </h1>
 
-      {/* Control Panel */}
-
       <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8 flex flex-wrap gap-4 items-center">
 
         <button onClick={generateArray} className="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">
           Generate
         </button>
 
-        <button onClick={bubbleSort} className="px-4 py-2 rounded bg-blue-600">
+        <button onClick={bubbleSort} disabled={isSorting} className="px-4 py-2 rounded bg-blue-600">
           Bubble
         </button>
 
-        <button onClick={selectionSort} className="px-4 py-2 rounded bg-purple-600">
+        <button onClick={selectionSort} disabled={isSorting} className="px-4 py-2 rounded bg-purple-600">
           Selection
         </button>
 
-        <button onClick={insertionSort} className="px-4 py-2 rounded bg-green-600">
+        <button onClick={insertionSort} disabled={isSorting} className="px-4 py-2 rounded bg-green-600">
           Insertion
         </button>
 
-        <button onClick={mergeSort} className="px-4 py-2 rounded bg-pink-600">
+        <button onClick={mergeSort} disabled={isSorting} className="px-4 py-2 rounded bg-pink-600">
           Merge
         </button>
 
-        <button onClick={quickSort} className="px-4 py-2 rounded bg-yellow-500 text-black">
+        <button onClick={quickSort} disabled={isSorting} className="px-4 py-2 rounded bg-yellow-500 text-black">
           Quick
+        </button>
+
+        <button
+          onClick={() => {
+            setIsPaused(!isPaused);
+            pauseRef.current = !pauseRef.current;
+          }}
+          className="px-4 py-2 rounded bg-orange-500"
+        >
+          {isPaused ? "Resume" : "Pause"}
         </button>
 
         <button onClick={generateArray} className="px-4 py-2 rounded bg-red-600">
@@ -382,8 +422,6 @@ function Visualizer() {
 
       </div>
 
-      {/* Algorithm Info */}
-
       {algorithmInfo.name && (
 
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8 max-w-md">
@@ -395,11 +433,13 @@ function Visualizer() {
           <p>Time Complexity: {algorithmInfo.time}</p>
           <p>Space Complexity: {algorithmInfo.space}</p>
 
+          <p className="mt-2 text-gray-300">
+            {algorithmInfo.description}
+          </p>
+
         </div>
 
       )}
-
-      {/* Visualization */}
 
       <div className="h-[400px] flex items-end justify-center gap-[3px]">
 
@@ -413,7 +453,8 @@ function Visualizer() {
                 ? "green"
                 : activeIndices.includes(index)
                 ? "red"
-                : "#3b82f6"
+                : "#3b82f6",
+              transition: "height 0.25s ease"
             }}
           ></div>
         ))}
