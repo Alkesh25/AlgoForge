@@ -1,9 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function Navbar() {
+function Navbar({ setIsAuth }) {
 
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const navItem = (path, label) => {
@@ -27,6 +28,13 @@ function Navbar() {
 
       </Link>
     );
+  };
+
+  // ✅ FINAL LOGOUT FUNCTION
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // 🔐 remove JWT token
+    setIsAuth(false);                 // update auth state
+    navigate("/login");               // redirect to login
   };
 
   return (
@@ -75,10 +83,7 @@ function Navbar() {
                 </Link>
 
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("user");
-                    window.location.reload();
-                  }}
+                  onClick={handleLogout}
                   className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-700"
                 >
                   Logout

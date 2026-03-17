@@ -1,100 +1,106 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ setIsAuth }) {
 
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin(e) {
+  const navigate = useNavigate();
+
+  // ✅ FINAL HANDLE SUBMIT (LOGIN + SIGNUP)
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    if (email && password) {
-      localStorage.setItem("user", email);
+    if (!email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
 
-      // reload app so App.jsx detects login
-      window.location.href = "/";
-    } else {
-      alert("Please enter email and password");
+    try {
+      // 🔥 IMPORTANT: dynamic URL
+      const url = isLogin
+        ? "http://localhost:5000/api/auth/login"
+        : "http://localhost:5000/api/auth/signup";
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "User", // signup ke liye required
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token); // 🔐 save token
+        setIsAuth(true);
+        navigate("/");
+      } else {
+        alert(data.message || "Something went wrong");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Server error");
     }
   }
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#0f172a"
-      }}
-    >
-      <form
-        onSubmit={handleLogin}
-        autoComplete="off"
-        style={{
-          background: "#1e293b",
-          padding: "40px",
-          borderRadius: "10px",
-          color: "white",
-          width: "300px"
-        }}
-      >
-        <h2 style={{ marginBottom: "20px" }}>Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-black">
 
-        {/* Email Input */}
+      <div className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-2xl p-8 shadow-xl">
 
-        <input
-          type="email"
-          placeholder="Email"
-          autoComplete="off"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-            background: "#334155",
-            color: "white",
-            border: "1px solid #475569",
-            borderRadius: "6px"
-          }}
-        />
+        <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+          AlgoForge
+        </h1>
 
-        {/* Password Input */}
+        <p className="text-center text-gray-400 mb-6">
+          {isLogin ? "Welcome back" : "Create your account"}
+        </p>
 
-        <input
-          type="password"
-          placeholder="Password"
-          autoComplete="new-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-            background: "#334155",
-            color: "white",
-            border: "1px solid #475569",
-            borderRadius: "6px"
-          }}
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
 
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            background: "#3b82f6",
-            border: "none",
-            color: "white",
-            cursor: "pointer",
-            borderRadius: "6px"
-          }}
-        >
-          Login
-        </button>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="w-full px-4 py-2 rounded-lg bg-slate-800 text-white"
+          />
 
-      </form>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full px-4 py-2 rounded-lg bg-slate-800 text-white"
+          />
+
+          <button className="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+            {isLogin ? "Login" : "Sign Up"}
+          </button>
+
+        </form>
+
+        <p className="text-center text-gray-400 mt-6 text-sm">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}
+          <span
+            onClick={() => setIsLogin(!isLogin)}
+            className="text-blue-400 cursor-pointer ml-1"
+          >
+            {isLogin ? "Sign Up" : "Login"}
+          </span>
+        </p>
+
+      </div>
+
     </div>
   );
 }

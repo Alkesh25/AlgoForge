@@ -6,7 +6,6 @@ import Quiz from "./pages/Quiz";
 import Login from "./pages/Login";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
-
 import TopicPage from "./pages/TopicPage";
 
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -14,36 +13,40 @@ import { useState, useEffect } from "react";
 
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(false);
 
+  // ✅ CHECK TOKEN ON LOAD
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    setUser(storedUser);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsAuth(true);
+    } else {
+      setIsAuth(false);
+    }
   }, []);
 
   return (
     <div>
 
-      {user && <Navbar />}
+      {isAuth && <Navbar setIsAuth={setIsAuth} />}
 
       <Routes>
 
-        {!user && (
+        {!isAuth ? (
           <>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </>
-        )}
-
-        {user && (
+        ) : (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/roadmap/:topic" element={<TopicPage />} />
             <Route path="/visualizer" element={<Visualizer />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/roadmap/:topic" element={<TopicPage />} />
             <Route path="/login" element={<Navigate to="/" />} />
           </>
         )}
