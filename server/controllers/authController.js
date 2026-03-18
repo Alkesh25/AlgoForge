@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// 🔐 GENERATE TOKEN
+// TOKEN
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -30,7 +30,6 @@ const signupUser = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "User registered successfully",
       token: generateToken(user._id),
       user,
     });
@@ -57,7 +56,6 @@ const loginUser = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Login successful",
       token: generateToken(user._id),
       user,
     });
@@ -66,4 +64,88 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser };
+// UPDATE PROGRESS
+const updateProgress = async (req, res) => {
+  try {
+    const { topic, questionId } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    let topicProgress = user.progress.find(
+      (p) => p.topic === topic
+    );
+
+    if (!topicProgress) {
+      user.progress.push({
+        topic,
+        completedQuestions: [questionId],
+      });
+    } else {
+      if (topicProgress.completedQuestions.includes(questionId)) {
+        topicProgress.completedQuestions =
+          topicProgress.completedQuestions.filter(
+            (id) => id !== questionId
+          );
+      } else {
+        topicProgress.completedQuestions.push(questionId);
+      }
+    }
+
+    await user.save();
+
+    res.json(user.progress);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// GET PROGRESS
+const getProgress = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.json(user.progress);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// SAVE QUIZ
+const saveQuizResult = async (req, res) => {
+  try {
+    const { topic, difficulty, score, total } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    user.quizHistory.push({
+      topic,
+      difficulty,
+      score,
+      total,
+    });
+
+    await user.save();
+
+    res.json({ message: "Quiz saved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// 🔥 GET QUIZ HISTORY (IMPORTANT)
+const getQuizHistory = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.json(user.quizHistory);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  signupUser,
+  loginUser,
+  updateProgress,
+  getProgress,
+  saveQuizResult,
+  getQuizHistory, // ✅ MUST
+};

@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
 import TopicPage from "./pages/TopicPage";
+import Profile from "./pages/Profile";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -41,6 +42,7 @@ function App() {
         ) : (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/roadmap/:topic" element={<TopicPage />} />
             <Route path="/visualizer" element={<Visualizer />} />

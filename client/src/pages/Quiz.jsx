@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
 import { quizData } from "../Data/quizData";
+import { saveQuiz } from "../services/progressService"; // ✅ NEW
 
 function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
@@ -43,7 +44,8 @@ function Quiz() {
     }
   }
 
-  function nextQuestion() {
+  // 🔥 FINAL FIX (LOCALSTORAGE REMOVED)
+  async function nextQuestion() {
 
     setSelected(null);
     setShowAnswer(false);
@@ -52,21 +54,16 @@ function Quiz() {
       setCurrent(current + 1);
     } else {
 
-      const history =
-        JSON.parse(localStorage.getItem("quizHistory")) || [];
-
-      history.push({
-        topic,
-        difficulty,
-        score,
-        total: questions.length,
-        date: new Date().toLocaleString()
-      });
-
-      localStorage.setItem(
-        "quizHistory",
-        JSON.stringify(history)
-      );
+      try {
+        await saveQuiz({
+          topic,
+          difficulty,
+          score,
+          total: questions.length,
+        });
+      } catch (error) {
+        console.error(error);
+      }
 
       setFinished(true);
     }

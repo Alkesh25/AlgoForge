@@ -55,6 +55,7 @@ function Navbar({ setIsAuth }) {
           {navItem("/roadmap", "Roadmap")}
           {navItem("/visualizer", "Visualizer")}
           {navItem("/quiz", "Quiz")}
+          {navItem("/profile", "Profile")}
 
           <div className="relative">
 

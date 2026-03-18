@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import ReactFlow, { Background, Controls } from "reactflow";
 import "reactflow/dist/style.css";
@@ -6,17 +6,40 @@ import "reactflow/dist/style.css";
 import { questions } from "../Data/questionsData";
 import { roadmapNodes, roadmapEdges } from "../Data/roadmapData";
 import { useNavigate } from "react-router-dom";
+import { getProgress } from "../services/progressService"; // ✅ NEW
 
 function Roadmap() {
-
   const navigate = useNavigate();
+
+  const [completed, setCompleted] = useState({});
+
+  // 🔥 LOAD FROM DB
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const data = await getProgress();
+
+        const formatted = {};
+
+        data.forEach((item) => {
+          formatted[item.topic.toLowerCase()] =
+            item.completedQuestions;
+        });
+
+        setCompleted(formatted);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProgress();
+  }, []);
 
   const nodes = roadmapNodes.map((node) => {
 
-    const solved =
-      JSON.parse(localStorage.getItem("completedQuestions")) || {};
+    const topicKey = node.id.toLowerCase();
 
-    const solvedForTopic = solved[node.id] || [];
+    const solvedForTopic = completed[topicKey] || [];
 
     const topicQuestions = questions[node.id];
 
@@ -40,23 +63,20 @@ function Roadmap() {
 
       style: {
         background: "transparent",
-        border: "none"
+        border: "none",
       },
 
       data: {
         label: (
-
           <div
             onClick={() => navigate(`/roadmap/${node.id}`)}
             className="cursor-pointer w-[230px] bg-slate-800 border border-slate-700 rounded-xl p-5 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/30 transition duration-300"
           >
 
-            {/* Topic Name */}
             <h3 className="text-white text-sm font-semibold mb-3 text-center">
               {node.label}
             </h3>
 
-            {/* Progress Bar */}
             <div className="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
               <div
                 className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 transition-all duration-500"
@@ -64,17 +84,14 @@ function Roadmap() {
               ></div>
             </div>
 
-            {/* Progress Text */}
             <p className="text-xs text-gray-400 text-center mt-2">
               {progress}%
             </p>
 
           </div>
-
-        )
-      }
+        ),
+      },
     };
-
   });
 
   const edges = roadmapEdges.map((edge) => ({
@@ -84,12 +101,11 @@ function Roadmap() {
     animated: true,
     style: {
       stroke: "#64748b",
-      strokeWidth: 2
-    }
+      strokeWidth: 2,
+    },
   }));
 
   return (
-
     <Layout>
 
       <h1 className="text-4xl font-bold leading-[1.3] pb-2 mb-10 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
@@ -111,7 +127,6 @@ function Roadmap() {
         >
 
           <Background color="#334155" gap={20} />
-
           <Controls />
 
         </ReactFlow>
@@ -119,7 +134,6 @@ function Roadmap() {
       </div>
 
     </Layout>
-
   );
 }
 

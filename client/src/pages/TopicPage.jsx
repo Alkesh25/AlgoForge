@@ -2,36 +2,63 @@ import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import { questions } from "../Data/questionsData";
+import { updateProgress, getProgress } from "../services/progressService";
 
 function TopicPage() {
   const { topic } = useParams();
+
+  // 🔥 FIX: normalize topic
+  const normalizedTopic = topic.toLowerCase();
 
   const topicData = questions[topic];
 
   const [completed, setCompleted] = useState({});
 
+  // 🔥 LOAD FROM DB (FIXED)
   useEffect(() => {
-    const saved =
-      JSON.parse(localStorage.getItem("completedQuestions")) || {};
-    setCompleted(saved);
+    const fetchProgress = async () => {
+      try {
+        const data = await getProgress();
+
+        const formatted = {};
+
+        data.forEach((item) => {
+          formatted[item.topic.toLowerCase()] = item.completedQuestions;
+        });
+
+        setCompleted(formatted);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProgress();
   }, []);
 
-  function toggleQuestion(id) {
+  // 🔥 TOGGLE + DB UPDATE (FIXED)
+  const toggleQuestion = async (id) => {
     const updated = { ...completed };
 
-    if (!updated[topic]) {
-      updated[topic] = [];
+    if (!updated[normalizedTopic]) {
+      updated[normalizedTopic] = [];
     }
 
-    if (updated[topic].includes(id)) {
-      updated[topic] = updated[topic].filter((q) => q !== id);
+    if (updated[normalizedTopic].includes(id)) {
+      updated[normalizedTopic] = updated[normalizedTopic].filter(
+        (q) => q !== id
+      );
     } else {
-      updated[topic].push(id);
+      updated[normalizedTopic].push(id);
     }
 
     setCompleted(updated);
-    localStorage.setItem("completedQuestions", JSON.stringify(updated));
-  }
+
+    try {
+      await updateProgress(normalizedTopic, id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (!topicData) {
     return (
@@ -41,8 +68,8 @@ function TopicPage() {
     );
   }
 
-  function getProgress(list) {
-    const solved = completed[topic] || [];
+  function getProgressStats(list) {
+    const solved = completed[normalizedTopic] || [];
     const count = list.filter((q) => solved.includes(q.id)).length;
 
     return {
@@ -56,22 +83,18 @@ function TopicPage() {
   }
 
   function Section({ title, data, color }) {
-    const progress = getProgress(data);
+    const progress = getProgressStats(data);
 
     return (
       <div className="bg-slate-800 p-6 rounded-xl mb-6">
 
-        {/* HEADER */}
         <div className="flex justify-between mb-3">
-          <h2 className="text-lg font-semibold">
-            {title}
-          </h2>
+          <h2 className="text-lg font-semibold">{title}</h2>
           <span className="text-gray-400 text-sm">
             {progress.percent}%
           </span>
         </div>
 
-        {/* PROGRESS BAR */}
         <div className="w-full bg-slate-700 h-2 rounded-full mb-4 overflow-hidden">
           <div
             className={`h-2 ${color}`}
@@ -79,7 +102,6 @@ function TopicPage() {
           ></div>
         </div>
 
-        {/* QUESTIONS */}
         <div className="space-y-3">
           {data.map((q) => (
             <div
@@ -91,7 +113,7 @@ function TopicPage() {
                 <input
                   type="checkbox"
                   checked={
-                    completed[topic]?.includes(q.id) || false
+                    completed[normalizedTopic]?.includes(q.id) || false
                   }
                   onChange={() => toggleQuestion(q.id)}
                 />
@@ -119,29 +141,13 @@ function TopicPage() {
   return (
     <Layout>
 
-      {/* TITLE */}
       <h1 className="text-4xl font-bold leading-[1.3] pb-2 mb-10 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
         {topicData.title || topic}
       </h1>
 
-      {/* SECTIONS */}
-      <Section
-        title="Easy"
-        data={topicData.easy}
-        color="bg-green-500"
-      />
-
-      <Section
-        title="Medium"
-        data={topicData.medium}
-        color="bg-yellow-500"
-      />
-
-      <Section
-        title="Hard"
-        data={topicData.hard}
-        color="bg-red-500"
-      />
+      <Section title="Easy" data={topicData.easy} color="bg-green-500" />
+      <Section title="Medium" data={topicData.medium} color="bg-yellow-500" />
+      <Section title="Hard" data={topicData.hard} color="bg-red-500" />
 
     </Layout>
   );

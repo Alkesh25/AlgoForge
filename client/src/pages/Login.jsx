@@ -4,42 +4,41 @@ import { useNavigate } from "react-router-dom";
 function Login({ setIsAuth }) {
 
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState("");   // ⭐ NEW
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  // ✅ FINAL HANDLE SUBMIT (LOGIN + SIGNUP)
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email || !password || (!isLogin && !name)) {
       alert("Please fill all fields");
       return;
     }
 
     try {
-      // 🔥 IMPORTANT: dynamic URL
       const url = isLogin
         ? "http://localhost:5000/api/auth/login"
         : "http://localhost:5000/api/auth/signup";
+
+      const bodyData = isLogin
+        ? { email, password }
+        : { name, email, password };
 
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: "User", // signup ke liye required
-          email,
-          password,
-        }),
+        body: JSON.stringify(bodyData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token); // 🔐 save token
+        localStorage.setItem("token", data.token);
         setIsAuth(true);
         navigate("/");
       } else {
@@ -66,6 +65,16 @@ function Login({ setIsAuth }) {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+
+          {!isLogin && (
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 text-white"
+            />
+          )}
 
           <input
             type="email"
