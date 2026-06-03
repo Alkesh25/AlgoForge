@@ -3,7 +3,7 @@ export const saveProgress = async (progressData) => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("https://algoforge-backend-rw73.onrender.com", {
+    const res = await fetch("https://algoforge-e3vs.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

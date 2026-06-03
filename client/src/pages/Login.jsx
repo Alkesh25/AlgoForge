@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BASE = "https://algoforge-backend-rw73.onrender.com";
+const BASE = "https://algoforge-e3vs.onrender.com";
 
 function Login({ setIsAuth }) {
 

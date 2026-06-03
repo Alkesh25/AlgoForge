@@ -1,4 +1,4 @@
-const BASE = "https://algoforge-backend-rw73.onrender.com/api/auth";
+const BASE = "https://algoforge-e3vs.onrender.com/api/auth";
 
 // UPDATE PROGRESS
 export const updateProgress = async (topic, questionId) => {
