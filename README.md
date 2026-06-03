@@ -9,7 +9,7 @@ AlgoForge is a full-stack DSA practice platform with Algorithm Visualizer where 
 
 ## 🌐 Live Demo
 
-👉 whimsical-gumdrop-ba0b70.netlify.app
+👉 https://whimsical-gumdrop-ba0b70.netlify.app
 
 
 ---
