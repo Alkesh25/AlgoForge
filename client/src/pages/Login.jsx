@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const BASE = "https://algoforge-backend-rw73.onrender.com";
+
 function Login({ setIsAuth }) {
 
   const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState("");   // ⭐ NEW
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,8 +22,8 @@ function Login({ setIsAuth }) {
 
     try {
       const url = isLogin
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/signup";
+        ? `${BASE}/api/auth/login`
+        : `${BASE}/api/auth/signup`;
 
       const bodyData = isLogin
         ? { email, password }
@@ -37,13 +39,14 @@ function Login({ setIsAuth }) {
 
       const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        setIsAuth(true);
-        navigate("/");
-      } else {
+      if (!response.ok) {
         alert(data.message || "Something went wrong");
+        return;
       }
+
+      localStorage.setItem("token", data.token);
+      setIsAuth(true);
+      navigate("/");
 
     } catch (error) {
       console.error(error);

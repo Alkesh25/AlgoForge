@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
 import { quizData } from "../Data/quizData";
-import { saveQuiz } from "../services/progressService"; // ✅ NEW
+import { saveQuiz } from "../services/progressService";
 
 function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
@@ -36,22 +36,24 @@ function Quiz() {
 
   function checkAnswer(index) {
 
+    if (showAnswer) return; // 🔥 double click bug fix
+
     setSelected(index);
     setShowAnswer(true);
 
     if (index === questions[current].answer) {
-      setScore(score + 1);
+      setScore((prev) => prev + 1); // 🔥 safe state update
     }
   }
 
-  // 🔥 FINAL FIX (LOCALSTORAGE REMOVED)
+  // 🔥 FINAL (DB SAVE)
   async function nextQuestion() {
 
     setSelected(null);
     setShowAnswer(false);
 
     if (current + 1 < questions.length) {
-      setCurrent(current + 1);
+      setCurrent((prev) => prev + 1);
     } else {
 
       try {
@@ -62,7 +64,7 @@ function Quiz() {
           total: questions.length,
         });
       } catch (error) {
-        console.error(error);
+        console.error("Quiz save failed:", error);
       }
 
       setFinished(true);
@@ -227,7 +229,7 @@ function Quiz() {
 
           <div
             key={index}
-            onClick={() => !showAnswer && checkAnswer(index)}
+            onClick={() => checkAnswer(index)}
             className={`p-3 mb-3 rounded cursor-pointer transition ${color}`}
           >
             {option}

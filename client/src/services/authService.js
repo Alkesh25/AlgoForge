@@ -3,7 +3,7 @@ export const saveProgress = async (progressData) => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/api/auth/progress", {
+    const res = await fetch("https://algoforge-backend-rw73.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
