@@ -1,291 +1,349 @@
+// Helper to generate LeetCode link from question id
+const lc = (id, title) => ({
+  id,
+  title,
+  link: `https://leetcode.com/problems/${title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")}/`,
+});
+
 export const questions = {
-
+  // ─── KEY: "arrays" (roadmapData id: "arrays") ────────────────────────────
   arrays: {
-
     easy: [
-      {
-        id: 1,
-        title: "Two Sum",
-        link: "https://leetcode.com/problems/two-sum/"
-      },
-      {
-        id: 217,
-        title: "Contains Duplicate",
-        link: "https://leetcode.com/problems/contains-duplicate/"
-      },
-      {
-        id: 242,
-        title: "Valid Anagram",
-        link: "https://leetcode.com/problems/valid-anagram/"
-      },
-      {
-        id: 169,
-        title: "Majority Element",
-        link: "https://leetcode.com/problems/majority-element/"
-      },
-      {
-        id: 268,
-        title: "Missing Number",
-        link: "https://leetcode.com/problems/missing-number/"
-      },
-      {
-        id: 136,
-        title: "Single Number",
-        link: "https://leetcode.com/problems/single-number/"
-      },
-      {
-        id: 219,
-        title: "Contains Duplicate II",
-        link: "https://leetcode.com/problems/contains-duplicate-ii/"
-      },
-      {
-        id: 66,
-        title: "Plus One",
-        link: "https://leetcode.com/problems/plus-one/"
-      },
-      {
-        id: 349,
-        title: "Intersection of Two Arrays",
-        link: "https://leetcode.com/problems/intersection-of-two-arrays/"
-      },
-      {
-        id: 350,
-        title: "Intersection of Two Arrays II",
-        link: "https://leetcode.com/problems/intersection-of-two-arrays-ii/"
-      },
-      {
-        id: 389,
-        title: "Find the Difference",
-        link: "https://leetcode.com/problems/find-the-difference/"
-      },
-      {
-        id: 448,
-        title: "Find All Numbers Disappeared in an Array",
-        link: "https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/"
-      },
-      {
-        id: 575,
-        title: "Distribute Candies",
-        link: "https://leetcode.com/problems/distribute-candies/"
-      },
-      {
-        id: 645,
-        title: "Set Mismatch",
-        link: "https://leetcode.com/problems/set-mismatch/"
-      },
-      {
-        id: 771,
-        title: "Jewels and Stones",
-        link: "https://leetcode.com/problems/jewels-and-stones/"
-      },
-      {
-        id: 961,
-        title: "N-Repeated Element in Size 2N Array",
-        link: "https://leetcode.com/problems/n-repeated-element-in-size-2n-array/"
-      },
-      {
-        id: 1189,
-        title: "Maximum Number of Balloons",
-        link: "https://leetcode.com/problems/maximum-number-of-balloons/"
-      },
-      {
-        id: 1207,
-        title: "Unique Number of Occurrences",
-        link: "https://leetcode.com/problems/unique-number-of-occurrences/"
-      },
-      {
-        id: 1295,
-        title: "Find Numbers with Even Number of Digits",
-        link: "https://leetcode.com/problems/find-numbers-with-even-number-of-digits/"
-      },
-      {
-        id: 1346,
-        title: "Check If N and Its Double Exist",
-        link: "https://leetcode.com/problems/check-if-n-and-its-double-exist/"
-      },
-      {
-        id: 1365,
-        title: "How Many Numbers Are Smaller Than the Current Number",
-        link: "https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/"
-      },
-      {
-        id: 1480,
-        title: "Running Sum of 1d Array",
-        link: "https://leetcode.com/problems/running-sum-of-1d-array/"
-      },
-      {
-        id: 1512,
-        title: "Number of Good Pairs",
-        link: "https://leetcode.com/problems/number-of-good-pairs/"
-      },
-      {
-        id: 1720,
-        title: "Decode XORed Array",
-        link: "https://leetcode.com/problems/decode-xored-array/"
-      },
-      {
-        id: 1748,
-        title: "Sum of Unique Elements",
-        link: "https://leetcode.com/problems/sum-of-unique-elements/"
-      },
-      {
-        id: 1832,
-        title: "Check if the Sentence Is Pangram",
-        link: "https://leetcode.com/problems/check-if-the-sentence-is-pangram/"
-      },
-      {
-        id: 2006,
-        title: "Count Number of Pairs With Absolute Difference K",
-        link: "https://leetcode.com/problems/count-number-of-pairs-with-absolute-difference-k/"
-      },
-      {
-        id: 2215,
-        title: "Find the Difference of Two Arrays",
-        link: "https://leetcode.com/problems/find-the-difference-of-two-arrays/"
-      },
-      {
-        id: 2956,
-        title: "Find Common Elements Between Two Arrays",
-        link: "https://leetcode.com/problems/find-common-elements-between-two-arrays/"
-      },
-      {
-        id: 3005,
-        title: "Count Elements With Maximum Frequency",
-        link: "https://leetcode.com/problems/count-elements-with-maximum-frequency/"
-      }
+      lc(1, "Two Sum"),
+      lc(217, "Contains Duplicate"),
+      lc(242, "Valid Anagram"),
+      lc(169, "Majority Element"),
+      lc(268, "Missing Number"),
+      lc(136, "Single Number"),
+      lc(448, "Find All Numbers Disappeared in an Array"),
+      lc(283, "Move Zeroes"),
+      lc(26, "Remove Duplicates from Sorted Array"),
+      lc(27, "Remove Element"),
+      lc(66, "Plus One"),
+      lc(485, "Max Consecutive Ones"),
+      lc(1295, "Find Numbers with Even Number of Digits"),
+      lc(977, "Squares of a Sorted Array"),
+      lc(1480, "Running Sum of 1d Array"),
+      lc(1672, "Richest Customer Wealth"),
+      lc(1470, "Shuffle the Array"),
+      lc(1389, "Create Target Array in the Given Order"),
+      lc(1920, "Build Array from Permutation"),
+      lc(1929, "Concatenation of Array"),
+      lc(867, "Transpose Matrix"),
+      lc(1572, "Matrix Diagonal Sum"),
+      lc(905, "Sort Array By Parity"),
+      lc(896, "Monotonic Array"),
+      lc(645, "Set Mismatch"),
+      lc(219, "Contains Duplicate II"),
+      lc(1346, "Check If N and Its Double Exist"),
+      lc(1984, "Minimum Difference Between Highest and Lowest of K Scores"),
+      lc(2089, "Find Target Indices After Sorting Array"),
+      lc(2006, "Count Number of Pairs With Absolute Difference K"),
+      lc(2160, "Minimum Sum of Four Digit Number After Splitting Digits"),
+      lc(2367, "Number of Arithmetic Triplets"),
+      lc(2824, "Count Pairs Whose Sum is Less than Target"),
+      lc(2956, "Find Common Elements Between Two Arrays"),
+      lc(2965, "Find Missing and Repeated Values"),
+      lc(3005, "Count Elements With Maximum Frequency"),
+      lc(3190, "Find Minimum Operations to Make All Elements Divisible by Three"),
+      lc(3194, "Minimum Average of Smallest and Largest Elements"),
+      lc(3379, "Transformed Array"),
+      lc(3432, "Count Partitions with Even Sum Difference"),
+      lc(3427, "Sum of Variable Length Subarrays"),
+      lc(3833, "Count Dominant Indices"),
+      lc(3512, "Minimum Operations to Make Array Sum Divisible by K"),
+      lc(3712, "Sum of Elements With Frequency Divisible by K"),
+      lc(3731, "Find Missing Elements"),
+      lc(3740, "Minimum Distance Between Three Equal Elements I"),
     ],
-  
     medium: [
-  
-      {
-        id: 49,
-        title: "Group Anagrams",
-        link: "https://leetcode.com/problems/group-anagrams/"
-      },
-  
-      {
-        id: 347,
-        title: "Top K Frequent Elements",
-        link: "https://leetcode.com/problems/top-k-frequent-elements/"
-      },
-  
-      {
-        id: 128,
-        title: "Longest Consecutive Sequence",
-        link: "https://leetcode.com/problems/longest-consecutive-sequence/"
-      },
-  
-      {
-        id: 238,
-        title: "Product of Array Except Self",
-        link: "https://leetcode.com/problems/product-of-array-except-self/"
-      },
-  
-      {
-        id: 287,
-        title: "Find the Duplicate Number",
-        link: "https://leetcode.com/problems/find-the-duplicate-number/"
-      },
-  
-      {
-        id: 229,
-        title: "Majority Element II",
-        link: "https://leetcode.com/problems/majority-element-ii/"
-      },
-  
-      {
-        id: 260,
-        title: "Single Number III",
-        link: "https://leetcode.com/problems/single-number-iii/"
-      },
-  
-      {
-        id: 442,
-        title: "Find All Duplicates in an Array",
-        link: "https://leetcode.com/problems/find-all-duplicates-in-an-array/"
-      },
-  
-      {
-        id: 525,
-        title: "Contiguous Array",
-        link: "https://leetcode.com/problems/contiguous-array/"
-      },
-  
-      {
-        id: 560,
-        title: "Subarray Sum Equals K",
-        link: "https://leetcode.com/problems/subarray-sum-equals-k/"
-      },
-  
-      {
-        id: 692,
-        title: "Top K Frequent Words",
-        link: "https://leetcode.com/problems/top-k-frequent-words/"
-      },
-  
-      {
-        id: 1282,
-        title: "Group the People Given the Group Size They Belong To",
-        link: "https://leetcode.com/problems/group-the-people-given-the-group-size-they-belong-to/"
-      },
-  
-      {
-        id: 1481,
-        title: "Least Number of Unique Integers after K Removals",
-        link: "https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/"
-      },
-  
-      {
-        id: 1817,
-        title: "Finding the Users Active Minutes",
-        link: "https://leetcode.com/problems/finding-the-users-active-minutes/"
-      },
-  
-      {
-        id: 2225,
-        title: "Find Players With Zero or One Losses",
-        link: "https://leetcode.com/problems/find-players-with-zero-or-one-losses/"
-      },
-  
-      {
-        id: 2342,
-        title: "Max Sum of a Pair With Equal Sum of Digits",
-        link: "https://leetcode.com/problems/max-sum-of-a-pair-with-equal-sum-of-digits/"
-      },
-  
-      {
-        id: 2352,
-        title: "Equal Row and Column Pairs",
-        link: "https://leetcode.com/problems/equal-row-and-column-pairs/"
-      },
-  
-      {
-        id: 2442,
-        title: "Count Number of Distinct Integers After Reverse Operations",
-        link: "https://leetcode.com/problems/count-number-of-distinct-integers-after-reverse-operations/"
-      },
-  
-      {
-        id: 2615,
-        title: "Sum of Distances",
-        link: "https://leetcode.com/problems/sum-of-distances/"
-      },
-  
-      {
-        id: 2657,
-        title: "Find the Prefix Common Array of Two Arrays",
-        link: "https://leetcode.com/problems/find-the-prefix-common-array-of-two-arrays/"
-      }
+      lc(238, "Product of Array Except Self"),
+      lc(53, "Maximum Subarray"),
+      lc(56, "Merge Intervals"),
+      lc(48, "Rotate Image"),
+      lc(54, "Spiral Matrix"),
+      lc(59, "Spiral Matrix II"),
+      lc(498, "Diagonal Traverse"),
+      lc(49, "Group Anagrams"),
+      lc(128, "Longest Consecutive Sequence"),
+      lc(75, "Sort Colors"),
+      lc(189, "Rotate Array"),
+      lc(80, "Remove Duplicates from Sorted Array II"),
+      lc(229, "Majority Element II"),
+      lc(137, "Single Number II"),
+      lc(260, "Single Number III"),
+      lc(442, "Find All Duplicates in an Array"),
+      lc(287, "Find the Duplicate Number"),
+      lc(347, "Top K Frequent Elements"),
+      lc(215, "Kth Largest Element in an Array"),
+      lc(274, "H-Index"),
+      lc(451, "Sort Characters By Frequency"),
+      lc(692, "Top K Frequent Words"),
+      lc(1338, "Reduce Array Size to The Half"),
+      lc(2225, "Find Players With Zero or One Losses"),
+      lc(2352, "Equal Row and Column Pairs"),
+      lc(2149, "Rearrange Array Elements by Sign"),
+      lc(2161, "Partition Array According to Given Pivot"),
+      lc(2295, "Replace Elements in an Array"),
+      lc(2033, "Minimum Operations to Make a Uni-Value Grid"),
+      lc(2442, "Count Number of Distinct Integers After Reverse Operations"),
+      lc(2342, "Max Sum of a Pair With Equal Sum of Digits"),
+      lc(2410, "Maximum Matching of Players With Trainers"),
+      lc(2554, "Maximum Number of Integers to Choose From a Range I"),
+      lc(2657, "Find the Prefix Common Array of Two Arrays"),
+      lc(1817, "Finding the Users Active Minutes"),
+      lc(1877, "Minimize Maximum Pair Sum in Array"),
+      lc(2938, "Separate Black and White Balls"),
+      lc(2799, "Count Complete Subarrays in an Array"),
+      lc(2602, "Minimum Operations to Make All Array Elements Equal"),
+      lc(2615, "Sum of Distances"),
     ],
-  
     hard: [
-      {
-        id: 41,
-        title: "First Missing Positive",
-        link: "https://leetcode.com/problems/first-missing-positive/"
-      }
-    ]
-  
-  }
-  
-  };
+      lc(41, "First Missing Positive"),
+      lc(42, "Trapping Rain Water"),
+      lc(84, "Largest Rectangle in Histogram"),
+      lc(85, "Maximal Rectangle"),
+    ],
+  },
+
+  // ─── KEY: "twopointers" (roadmapData id: "twopointers") ──────────────────
+  twopointers: {
+    easy: [
+      lc(344, "Reverse String"),
+      lc(125, "Valid Palindrome"),
+      lc(349, "Intersection of Two Arrays"),
+      lc(350, "Intersection of Two Arrays II"),
+      lc(167, "Two Sum II - Input Array Is Sorted"),
+      lc(977, "Squares of a Sorted Array"),
+      lc(455, "Assign Cookies"),
+      lc(2000, "Reverse Prefix of Word"),
+      lc(2078, "Two Furthest Houses With Different Colors"),
+    ],
+    medium: [
+      lc(11, "Container With Most Water"),
+      lc(75, "Sort Colors"),
+      lc(86, "Partition List"),
+      lc(532, "K-diff Pairs in an Array"),
+      lc(1877, "Minimize Maximum Pair Sum in Array"),
+      lc(2149, "Rearrange Array Elements by Sign"),
+      lc(2410, "Maximum Matching of Players With Trainers"),
+    ],
+    hard: [
+      lc(42, "Trapping Rain Water"),
+    ],
+  },
+
+  // ─── KEY: "slidingwindow" (roadmapData id: "slidingwindow") ──────────────
+  slidingwindow: {
+    easy: [
+      lc(219, "Contains Duplicate II"),
+      lc(485, "Max Consecutive Ones"),
+      lc(1343, "Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold"),
+      lc(1984, "Minimum Difference Between Highest and Lowest of K Scores"),
+    ],
+    medium: [
+      lc(3, "Longest Substring Without Repeating Characters"),
+      lc(209, "Minimum Size Subarray Sum"),
+      lc(438, "Find All Anagrams in a String"),
+      lc(713, "Subarray Product Less Than K"),
+      lc(904, "Fruit Into Baskets"),
+      lc(930, "Binary Subarrays With Sum"),
+      lc(1004, "Max Consecutive Ones III"),
+      lc(1248, "Count Number of Nice Subarrays"),
+      lc(1358, "Number of Substrings Containing All Three Characters"),
+      lc(1493, "Longest Subarray of Ones After Deleting One Element"),
+      lc(1513, "Number of Substrings With Only 1s"),
+      lc(2461, "Maximum Sum of Distinct Subarrays With Length K"),
+      lc(2958, "Length of Longest Subarray With at Most K Frequency"),
+      lc(2962, "Count Subarrays Where Max Element Appears at Least K Times"),
+      lc(525, "Contiguous Array"),
+      lc(560, "Subarray Sum Equals K"),
+    ],
+    hard: [
+      lc(992, "Subarrays with K Different Integers"),
+      lc(2302, "Count Subarrays With Score Less Than K"),
+      lc(410, "Split Array Largest Sum"),
+    ],
+  },
+
+  // ─── KEY: "stack" (roadmapData id: "stack") ──────────────────────────────
+  stack: {
+    easy: [
+      lc(20, "Valid Parentheses"),
+    ],
+    medium: [
+      lc(150, "Evaluate Reverse Polish Notation"),
+      lc(394, "Decode String"),
+      lc(402, "Remove K Digits"),
+      lc(735, "Asteroid Collision"),
+      lc(739, "Daily Temperatures"),
+      lc(763, "Partition Labels"),
+      lc(921, "Minimum Add to Make Parentheses Valid"),
+      lc(946, "Validate Stack Sequences"),
+      lc(1209, "Remove All Adjacent Duplicates in String II"),
+      lc(2211, "Count Collisions on a Road"),
+    ],
+    hard: [
+      lc(84, "Largest Rectangle in Histogram"),
+      lc(85, "Maximal Rectangle"),
+    ],
+  },
+
+  // ─── KEY: "binarysearch" (roadmapData id: "binarysearch") ────────────────
+  binarysearch: {
+    easy: [
+      lc(704, "Binary Search"),
+      lc(35, "Search Insert Position"),
+      lc(278, "First Bad Version"),
+      lc(69, "Sqrt(x)"),
+      lc(367, "Valid Perfect Square"),
+      lc(441, "Arranging Coins"),
+      lc(744, "Find Smallest Letter Greater Than Target"),
+      lc(852, "Peak Index in a Mountain Array"),
+    ],
+    medium: [
+      lc(33, "Search in Rotated Sorted Array"),
+      lc(34, "Find First and Last Position of Element in Sorted Array"),
+      lc(74, "Search a 2D Matrix"),
+      lc(81, "Search in Rotated Sorted Array II"),
+      lc(153, "Find Minimum in Rotated Sorted Array"),
+      lc(162, "Find Peak Element"),
+      lc(240, "Search a 2D Matrix II"),
+      lc(540, "Single Element in a Sorted Array"),
+      lc(1011, "Capacity To Ship Packages Within D Days"),
+      lc(1855, "Maximum Distance Between a Pair of Values"),
+    ],
+    hard: [
+      lc(4, "Median of Two Sorted Arrays"),
+      lc(154, "Find Minimum in Rotated Sorted Array II"),
+    ],
+  },
+
+  // ─── KEY: "linkedlist" (roadmapData id: "linkedlist") ────────────────────
+  linkedlist: {
+    easy: [
+      lc(876, "Middle of the Linked List"),
+      lc(206, "Reverse Linked List"),
+      lc(21, "Merge Two Sorted Lists"),
+      lc(141, "Linked List Cycle"),
+      lc(83, "Remove Duplicates from Sorted List"),
+      lc(203, "Remove Linked List Elements"),
+    ],
+    medium: [
+      lc(2, "Add Two Numbers"),
+      lc(19, "Remove Nth Node From End of List"),
+      lc(24, "Swap Nodes in Pairs"),
+      lc(61, "Rotate List"),
+      lc(82, "Remove Duplicates from Sorted List II"),
+      lc(86, "Partition List"),
+      lc(92, "Reverse Linked List II"),
+      lc(142, "Linked List Cycle II"),
+      lc(143, "Reorder List"),
+      lc(148, "Sort List"),
+      lc(237, "Delete Node in a Linked List"),
+      lc(328, "Odd Even Linked List"),
+      lc(445, "Add Two Numbers II"),
+      lc(817, "Linked List Components"),
+      lc(1019, "Next Greater Node In Linked List"),
+      lc(1669, "Merge In Between Linked Lists"),
+      lc(1721, "Swapping Nodes in a Linked List"),
+      lc(2058, "Find the Minimum and Maximum Number of Nodes Between Critical Points"),
+      lc(2095, "Delete the Middle Node of a Linked List"),
+      lc(2130, "Maximum Twin Sum of a Linked List"),
+      lc(2181, "Merge Nodes in Between Zeros"),
+      lc(2487, "Remove Nodes From Linked List"),
+      lc(2807, "Insert Greatest Common Divisors in Linked List"),
+      lc(2816, "Double a Number Represented as a Linked List"),
+      lc(3217, "Delete Nodes From Linked List Present in Array"),
+    ],
+    hard: [
+      lc(25, "Reverse Nodes in k-Group"),
+    ],
+  },
+
+  // ─── KEY: "trees" (roadmapData id: "trees") ──────────────────────────────
+  trees: {
+    easy: [
+      lc(104, "Maximum Depth of Binary Tree"),
+      lc(226, "Invert Binary Tree"),
+      lc(543, "Diameter of Binary Tree"),
+      lc(100, "Same Tree"),
+      lc(101, "Symmetric Tree"),
+      lc(572, "Subtree of Another Tree"),
+      lc(112, "Path Sum"),
+    ],
+    medium: [
+      lc(102, "Binary Tree Level Order Traversal"),
+      lc(105, "Construct Binary Tree from Preorder and Inorder Traversal"),
+      lc(98, "Validate Binary Search Tree"),
+      lc(230, "Kth Smallest Element in a BST"),
+      lc(235, "Lowest Common Ancestor of a Binary Search Tree"),
+      lc(236, "Lowest Common Ancestor of a Binary Tree"),
+      lc(199, "Binary Tree Right Side View"),
+      lc(1448, "Count Good Nodes in Binary Tree"),
+    ],
+    hard: [
+      lc(124, "Binary Tree Maximum Path Sum"),
+      lc(297, "Serialize and Deserialize Binary Tree"),
+    ],
+  },
+
+  // ─── KEY: "tries" (roadmapData id: "tries") ──────────────────────────────
+  tries: {
+    easy: [
+      lc(14, "Longest Common Prefix"),
+    ],
+    medium: [
+      lc(208, "Implement Trie (Prefix Tree)"),
+      lc(211, "Design Add and Search Words Data Structure"),
+      lc(648, "Replace Words"),
+      lc(677, "Map Sum Pairs"),
+    ],
+    hard: [
+      lc(212, "Word Search II"),
+    ],
+  },
+
+  // ─── KEY: "heap" (roadmapData id: "heap") ────────────────────────────────
+  heap: {
+    easy: [
+      lc(703, "Kth Largest Element in a Stream"),
+      lc(1046, "Last Stone Weight"),
+    ],
+    medium: [
+      lc(215, "Kth Largest Element in an Array"),
+      lc(347, "Top K Frequent Elements"),
+      lc(692, "Top K Frequent Words"),
+      lc(973, "K Closest Points to Origin"),
+      lc(451, "Sort Characters By Frequency"),
+      lc(1338, "Reduce Array Size to The Half"),
+      lc(1481, "Least Number of Unique Integers after K Removals"),
+    ],
+    hard: [
+      lc(295, "Find Median from Data Stream"),
+    ],
+  },
+
+  // ─── KEY: "backtracking" (roadmapData id: "backtracking") ────────────────
+  backtracking: {
+    easy: [],
+    medium: [
+      lc(17, "Letter Combinations of a Phone Number"),
+      lc(22, "Generate Parentheses"),
+      lc(39, "Combination Sum"),
+      lc(131, "Palindrome Partitioning"),
+      lc(46, "Permutations"),
+      lc(78, "Subsets"),
+      lc(90, "Subsets II"),
+      lc(40, "Combination Sum II"),
+      lc(79, "Word Search"),
+    ],
+    hard: [
+      lc(51, "N-Queens"),
+    ],
+  },
+};

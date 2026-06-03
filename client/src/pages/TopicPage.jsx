@@ -10,7 +10,7 @@ function TopicPage() {
   // 🔥 FIX: normalize topic
   const normalizedTopic = topic.toLowerCase();
 
-  const topicData = questions[topic];
+  const topicData = questions[normalizedTopic];
 
   const [completed, setCompleted] = useState({});
 
